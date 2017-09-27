@@ -1,14 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
+[Serializable]
+public class Boundary
+{
+    public float xMin, xMax, yMin, yMax;
+}
+
 public class PlayerController : MonoBehaviour {
+    private Rigidbody2D rBody;
+
     public float speed = 0.0f;
+    // public float xMin, xMax, yMin, yMax;
+    public Boundary boundary;
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        rBody = GetComponent<Rigidbody2D>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -27,6 +37,9 @@ public class PlayerController : MonoBehaviour {
 
         // Debug.Log(movement);
 
-        GetComponent<Rigidbody2D>().velocity = movement * speed;
+        rBody.velocity = movement * speed;
+        //rBody.position = new Vector2(Mathf.Clamp(rBody.position.x, -8.0f, 4.0f), Mathf.Clamp(rBody.position.y, -4.0f, 4.0f));
+        //rBody.position = new Vector2(Mathf.Clamp(rBody.position.x, xMin, xMax), Mathf.Clamp(rBody.position.y, yMin, yMax));
+        rBody.position = new Vector2(Mathf.Clamp(rBody.position.x, boundary.xMin, boundary.xMax), Mathf.Clamp(rBody.position.y, boundary.yMin, boundary.yMax));
     }
 }
