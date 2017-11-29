@@ -9,6 +9,11 @@ public class Boundary
 
 public class PlayerController : MonoBehaviour {
     private Rigidbody2D rBody;
+    private float shotTimer = 0.0f;
+
+    public float shotDelay = 0.5f;
+    public GameObject laser;
+    public Transform laserSpawner;
 
     public float speed = 0.0f;
     // public float xMin, xMax, yMin, yMax;
@@ -21,7 +26,13 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        shotTimer += Time.deltaTime;
+
+		if (Input.GetButton("Laser") && shotTimer > shotDelay)
+        {
+            Instantiate(laser, laserSpawner.position, laserSpawner.rotation);
+            shotTimer = 0;
+        }
 	}
 
     // Like update but used with physics
